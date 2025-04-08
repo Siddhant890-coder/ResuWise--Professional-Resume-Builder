@@ -1,0 +1,84 @@
+.two-column-template.p-8 {
+    padding: 2rem;
+}
+.two-column-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    max-width: 210mm;
+    margin: 0 auto;
+}
+.left-column {
+    background-color: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+.right-column {
+    padding: 0.5rem;
+}
+.section-title {
+    color: #1e40af;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.25rem;
+}
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+}
+.contact-icon {
+    margin-right: 0.75rem;
+    color: #64748b;
+}
+.skill-item {
+    margin-bottom: 0.5rem;
+}
+.skill-name {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+.skill-bar {
+    height: 4px;
+    background-color: #e2e8f0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+.skill-level {
+    height: 100%;
+    background-color: #1e40af;
+}
+.experience-item {
+    margin-bottom: 1.5rem;
+}
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+.experience-title {
+    font-weight: 600;
+}
+.experience-date {
+    color: #64748b;
+    font-size: 0.875rem;
+}
+.experience-subtitle {
+    color: #475569;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+.experience-description {
+    font-size: 0.875rem;
+    color: #334155;
+}
+@media (max-width: 768px) {
+    .two-column-container {
+        grid-template-columns: 1fr;
+    }
+}
