@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Resume Template</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .technical-header {
+            background-color: #0d9488;
+            color: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .technical-section {
+            margin-bottom: 1.5rem;
+        }
+        .technical-section-title {
+            color: #0d9488;
+            border-left: 4px solid #0d9488;
+            padding-left: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .technical-skill-category {
+            font-weight: 600;
+            color: #0d9488;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-white p-8 max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="technical-header rounded-lg">
+        <h1 class="text-3xl font-bold">{{personalInfo.fullName}}</h1>
+        <p class="text-xl">{{personalInfo.professionalTitle}}</p>
+        <div class="flex flex-wrap gap-4 mt-2 text-sm">
+            {{#personalInfo.email}}<span><i class="fas fa-envelope mr-1"></i> {{.}}</span>{{/personalInfo.email}}
+            {{#personalInfo.phone}}<span><i class="fas fa-phone mr-1"></i> {{.}}</span>{{/personalInfo.phone}}
+            {{#personalInfo.linkedin}}<span><i class="fab fa-linkedin mr-1"></i> {{.}}</span>{{/personalInfo.linkedin}}
+            {{#personalInfo.portfolio}}<span><i class="fas fa-globe mr-1"></i> {{.}}</span>{{/personalInfo.portfolio}}
+        </div>
+    </div>
+
+    <!-- Summary -->
+    {{#personalInfo.summary}}
+    <div class="technical-section">
+        <h2 class="technical-section-title text-lg font-semibold">SUMMARY</h2>
+        <p class="text-gray-700">{{personalInfo.summary}}</p>
+    </div>
+    {{/personalInfo.summary}}
+
+    <!-- Technical Skills -->
+    {{#skills.length}}
+    <div class="technical-section">
+        <h2 class="technical-section-title text-lg font-semibold">TECHNICAL SKILLS</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {{#skills}}
+            <div>
+                <span class="technical-skill">{{.}}</span>
+            </div>
+            {{/skills}}
+        </div>
+    </div>
+    {{/skills.length}}
+
+    <!-- Experience -->
+    {{#workExperience.length}}
+    <div class="technical-section">
+        <h2 class="technical-section-title text-lg font-semibold">EXPERIENCE</h2>
+        {{#workExperience}}
+        <div class="mb-6">
+            <div class="flex justify-between">
+                <h3 class="font-bold text-gray-800">{{title}}</h3>
+                <span class="text-gray-600">
+                    {{startDate}} - {{#endDate}}{{endDate}}{{/endDate}}{{^endDate}}Present{{/endDate}}
+                </span>
+            </div>
+            <p class="text-gray-600 italic">{{company}}</p>
+            {{#description}}
+            <ul class="list-disc list-inside mt-2 text-gray-700">
+                {{#description.split('\n')}}
+                <li>{{.}}</li>
+                {{/description.split}}
+            </ul>
+            {{/description}}
+        </div>
+        {{/workExperience}}
+    </div>
+    {{/workExperience.length}}
+
+    <!-- Education -->
+    {{#education.length}}
+    <div class="technical-section">
+        <h2 class="technical-section-title text-lg font-semibold">EDUCATION</h2>
+        {{#education}}
+        <div class="mb-4">
+            <div class="flex justify-between">
+                <h3 class="font-bold text-gray-800">{{degree}}</h3>
+                <span class="text-gray-600">
+                    {{startDate}} - {{#endDate}}{{endDate}}{{/endDate}}{{^endDate}}Present{{/endDate}}
+                </span>
+            </div>
+            <p class="text-gray-600 italic">{{institution}}</p>
+            {{#description}}<p class="text-gray-700 mt-1">{{description}}</p>{{/description}}
+        </div>
+        {{/education}}
+    </div>
+    {{/education.length}}
+</body>
+</html>
