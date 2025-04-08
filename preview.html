@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Preview - ResuWise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .resume-page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        @media print {
+            body {
+                background: none;
+            }
+            .no-print {
+                display: none;
+            }
+            .resume-page {
+                box-shadow: none;
+                margin: 0;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8 no-print">
+            <a href="index.html" class="text-xl font-bold text-blue-600">ResuWise</a>
+            <div class="flex space-x-4">
+                <a href="builder.html" class="text-gray-600 hover:text-blue-600 flex items-center">
+                    <i class="fas fa-edit mr-2"></i> Edit Resume
+                </a>
+                <button id="downloadPdf" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
+                    <i class="fas fa-file-pdf mr-2"></i> Download PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Resume Preview -->
+        <div id="resumeContent" class="resume-page p-8">
+            <!-- Resume content will be dynamically inserted here -->
+            <div class="text-center py-20 text-gray-500" id="loadingMessage">
+                <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                <p>Loading your resume...</p>
+            </div>
+        </div>
+
+        <!-- Print Button (mobile-friendly) -->
+        <div class="mt-8 text-center no-print">
+            <button onclick="window.print()" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 flex items-center mx-auto">
+                <i class="fas fa-print mr-2"></i> Print Resume
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem('resuwise_user'));
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load resume data
+            const resumeData = localStorage.getItem(`resuwise_draft_${user.email}`);
+            if (!resumeData) {
+                window.location.href = 'builder.html';
+                return;
+            }
+
+            // Render resume
+            renderResume(JSON.parse(resumeData));
+
+            // Set up PDF download
+            document.getElementById('downloadPdf').addEventListener('click', downloadPdf);
+        });
+
+        function renderResume(data) {
+            const resumeContent = document.getElementById('resumeContent');
+            const loadingMessage = document.getElementById('loadingMessage');
+            
+            // Remove loading message
+            if (loadingMessage) {
+                loadingMessage.remove();
+            }
+
+            // Apply template-specific styling
+            let templateStyle = '';
+            let templateClasses = '';
+            
+            switch(data.template) {
+                case 'classic':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                border-bottom: 2px solid #4b5563;
+                                padding-bottom: 1rem;
+                                margin-bottom: 1.5rem;
+                            }
+                            .section-title {
+                                border-bottom: 1px solid #d1d5db;
+                                padding-bottom: 0.5rem;
+                                margin-bottom: 1rem;
+                                color: #4b5563;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-800';
+                    break;
+                
+                case 'creative':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                background-color: #7c3aed;
+                                color: white;
+                                padding: 2rem;
+                                margin-bottom: 2rem;
+                                border-radius: 0.5rem;
+                            }
+                            .section-title {
+                                color: #7c3aed;
+                                margin-bottom: 1rem;
+                                font-weight: 600;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-700';
+                    break;
+                
+                default: // modern
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                border-bottom: 3px solid #3b82f6;
+                                padding-bottom: 1rem;
+                                margin-bottom: 2rem;
+                            }
+                            .section-title {
+                                color: #3b82f6;
+                                margin-bottom: 0.75rem;
+                                font-weight: 600;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-800';
+            }
+
+            // Generate HTML for the resume
+            let html = `
+                ${templateStyle}
+                <div class="${templateClasses}">
+                    <!-- Header -->
+                    <div class="resume-header">
+                        <h1 class="text-3xl font-bold mb-2">${data.personalInfo.fullName || 'Your Name'}</h1>
+                        <p class="text-xl mb-4">${data.personalInfo.professionalTitle || 'Professional Title'}</p>
+                        <div class="flex flex-wrap gap-x-8 gap-y-2 text-sm">
+                            ${data.personalInfo.email ? `<div class="flex items-center"><i class="fas fa-envelope mr-2"></i> ${data.personalInfo.email}</div>` : ''}
+                            ${data.personalInfo.phone ? `<div class="flex items-center"><i class="fas fa-phone mr-2"></i> ${data.personalInfo.phone}</div>` : ''}
+                            ${data.personalInfo.linkedin ? `<div class="flex items-center"><i class="fab fa-linkedin mr-2"></i> ${data.personalInfo.linkedin.replace('https://', '')}</div>` : ''}
+                            ${data.personalInfo.portfolio ? `<div class="flex items-center"><i class="fas fa-globe mr-2"></i> ${data.personalInfo.portfolio.replace('https://', '')}</div>` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Professional Summary -->
+                    ${data.personalInfo.summary ? `
+                    <div class="mb-8">
+                        <h2 class="text-xl font-semibold border-b border-gray-300 pb-2 mb-4">PROFESSIONAL SUMMARY</h2>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-700 whitespace-pre-line leading-relaxed">${data.personalInfo.summary}</p>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <!-- Work Experience -->
+                    ${data.workExperience.length > 0 && data.workExperience[0].title ? `
+                    <div class="mb-6">
+                        <h2 class="section-title text-xl">WORK EXPERIENCE</h2>
+                        ${data.workExperience.map(work => `
+                            <div class="mb-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-semibold text-lg">${work.title}</h3>
+                                        <p class="text-gray-600">${work.company}</p>
+                                    </div>
+                                    <div class="text-gray-600 text-sm whitespace-nowrap">
+                                        ${work.startDate ? formatDate(work.startDate) : ''} 
+                                        ${work.endDate ? ` - ${formatDate(work.endDate)}` : work.startDate ? ' - Present' : ''}
+                                    </div>
+                                </div>
+                                ${work.description ? `<div class="mt-2 pl-4 border-l-2 border-gray-200"><p class="text-gray-700">${work.description.replace(/\n/g, '<br>')}</p></div>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                    ` : ''}
+
+                    <!-- Education -->
+                    ${data.education.length > 0 && data.education[0].degree ? `
+                    <div class="mb-6">
+                        <h2 class="section-title text-xl">EDUCATION</h2>
+                        ${data.education.map(edu => `
+                            <div class="mb-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-semibold text-lg">${edu.degree}</h3>
+                                        <p class="text-gray-600">${edu.institution}</p>
+                                    </div>
+                                    <div class="text-gray-600 text-sm whitespace-nowrap">
+                                        ${edu.startDate ? formatDate(edu.startDate) : ''} 
+                                        ${edu.endDate ? ` - ${formatDate(edu.endDate)}` : edu.startDate ? ' - Present' : ''}
+                                    </div>
+                                </div>
+                                ${edu.description ? `<div class="mt-2 pl-4 border-l-2 border-gray-200"><p class="text-gray-700">${edu.description.replace(/\n/g, '<br>')}</p></div>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                    ` : ''}
+
+                    <!-- Skills -->
+                    ${data.skills.length > 0 ? `
+                    <div class="mb-6">
+                        <h2 class="section-title text-xl">SKILLS</h2>
+                        <div class="flex flex-wrap gap-2">
+                            ${data.skills.map(skill => `
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">${skill}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+
+            resumeContent.innerHTML = html;
+        }
+
+        function downloadPdf() {
+            const element = document.getElementById('resumeContent');
+            const opt = {
+                margin: 10,
+                filename: 'resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Show loading state
+            const button = document.getElementById('downloadPdf');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating PDF...';
+            button.disabled = true;
+
+            // Generate PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore button
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        }
+    </script>
+</body>
+</html>
