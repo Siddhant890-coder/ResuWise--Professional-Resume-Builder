@@ -1,0 +1,859 @@
+.<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Resume - ResuWise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .section {
+            transition: all 0.3s ease;
+        }
+        .section:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .skill-tag {
+            transition: all 0.2s ease;
+        }
+        .skill-tag:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <img src="assets/images/logo.svg" alt="ResuWise Logo" class="h-8">
+                    </a>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="index.html#templates" target="_blank" class="text-gray-600 hover:text-blue-600">Templates</a>
+                    <a href="index.html#features" target="_blank" class="text-gray-600 hover:text-blue-600">Features</a>
+                    <a href="index.html#about" target="_blank" class="text-gray-600 hover:text-blue-600">About</a>
+                    <button id="saveDraft" class="text-gray-600 hover:text-blue-600">Save Draft</button>
+                    <button id="previewBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Preview Resume</button>
+                    <span id="userEmail" class="text-sm text-gray-500"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Left Panel - Form -->
+            <div class="w-full md:w-2/3">
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">Build Your Resume</h2>
+                    
+                    <!-- Template Selection -->
+                    <div class="mb-8">
+                        <label class="block text-lg font-medium text-gray-700 mb-3">Choose a Template</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="modern">
+                                <div class="h-32 bg-gradient-to-r from-blue-400 to-blue-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Modern</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="classic">
+                                <div class="h-32 bg-gradient-to-r from-gray-400 to-gray-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Classic</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="creative">
+                                <div class="h-32 bg-gradient-to-r from-purple-400 to-purple-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Creative</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="executive">
+                                <div class="h-32 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Executive</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="technical">
+                                <div class="h-32 bg-gradient-to-r from-teal-400 to-teal-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Technical</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="academic">
+                                <div class="h-32 bg-gradient-to-r from-amber-400 to-amber-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Academic</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="minimalist">
+                                <div class="h-32 bg-gradient-to-r from-slate-400 to-slate-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Minimalist</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="bold">
+                                <div class="h-32 bg-gradient-to-r from-rose-400 to-rose-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Bold</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="professional">
+                                <div class="h-32 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Professional</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="clean">
+                                <div class="h-32 bg-gradient-to-r from-cyan-400 to-cyan-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Clean</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="creative2">
+                                <div class="h-32 bg-gradient-to-r from-fuchsia-400 to-fuchsia-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Creative II</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="modern2">
+                                <div class="h-32 bg-gradient-to-r from-violet-400 to-violet-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Modern II</p>
+                            </div>
+                            <div class="template-option border-2 border-gray-200 rounded-lg p-2 cursor-pointer hover:border-blue-400" data-template="timeless">
+                                <div class="h-32 bg-gradient-to-r from-orange-400 to-orange-600 rounded"></div>
+                                <p class="text-center mt-2 text-sm">Timeless</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="section bg-white border border-gray-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                            <i class="fas fa-user-circle text-blue-500 mr-2"></i>
+                            Personal Information
+                        </h3>
+                    <!-- Profile Image -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Profile Photo</label>
+                        <div class="flex items-center">
+                            <img id="profileImagePreview" class="w-24 h-24 rounded-full object-cover border-2 border-gray-300 hidden" src="#" alt="Profile Preview">
+                            <input type="file" id="profileImage" accept="image/*" class="hidden">
+                            <button id="uploadBtn" type="button" class="ml-4 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Upload Image
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name*</label>
+                                <input type="text" id="fullName" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Professional Title</label>
+                                <input type="text" id="professionalTitle" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. Software Engineer">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email*</label>
+                                <input type="email" id="email" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                <input type="tel" id="phone" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
+                                <input type="url" id="linkedin" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="https://linkedin.com/in/yourname">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">GitHub/Portfolio</label>
+                                <input type="url" id="portfolio" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="https://yourwebsite.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Summary -->
+                    <div class="section bg-white border border-gray-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                            <i class="fas fa-file-alt text-blue-500 mr-2"></i>
+                            Professional Summary
+                        </h3>
+                        <textarea id="summary" rows="5" 
+                            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                            placeholder="Write a brief summary of your professional background and key skills (max 200 words)..."
+                            maxlength="1000"></textarea>
+                        <p id="wordCount" class="text-xs text-gray-500 mt-1">0/200 words</p>
+                    </div>
+
+                    <!-- Work Experience -->
+                    <div class="section bg-white border border-gray-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                            <i class="fas fa-briefcase text-blue-500 mr-2"></i>
+                            Work Experience
+                        </h3>
+                        <div id="workExperienceContainer">
+                            <!-- Work Experience entries will be added here -->
+                        </div>
+                        <button id="addWorkExperience" class="mt-4 text-blue-600 hover:text-blue-800 flex items-center">
+                            <i class="fas fa-plus-circle mr-2"></i> Add Work Experience
+                        </button>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="section bg-white border border-gray-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                            <i class="fas fa-graduation-cap text-blue-500 mr-2"></i>
+                            Education
+                        </h3>
+                        <div id="educationContainer">
+                            <!-- Education entries will be added here -->
+                        </div>
+                        <button id="addEducation" class="mt-4 text-blue-600 hover:text-blue-800 flex items-center">
+                            <i class="fas fa-plus-circle mr-2"></i> Add Education
+                        </button>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="section bg-white border border-gray-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                            <i class="fas fa-tools text-blue-500 mr-2"></i>
+                            Skills
+                        </h3>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Add Skills (comma separated)</label>
+                            <div class="flex">
+                                <input type="text" id="skillInput" class="flex-grow p-2 border border-gray-300 rounded-l-lg focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. JavaScript, UI/UX Design, Project Management">
+                                <button id="addSkillBtn" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                        <div id="skillsContainer" class="flex flex-wrap gap-2 mb-6">
+                            <!-- Skill tags will be added here -->
+                        </div>
+
+                        <!-- Languages -->
+                        <div class="mb-4">
+                            <h4 class="text-lg font-semibold mb-2 flex items-center">
+                                <i class="fas fa-language text-blue-500 mr-2"></i>
+                                Languages
+                            </h4>
+                            <div class="flex">
+                                <input type="text" id="languages" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. English (Fluent), Spanish (Intermediate)">
+                            </div>
+                        </div>
+
+                        <!-- Hobbies -->
+                        <div class="mb-4">
+                            <h4 class="text-lg font-semibold mb-2 flex items-center">
+                                <i class="fas fa-heart text-blue-500 mr-2"></i>
+                                Hobbies & Interests
+                            </h4>
+                            <textarea id="hobbies" rows="3" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. Photography, Hiking, Chess"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Panel - Preview -->
+            <div class="w-full md:w-1/3">
+                <div class="bg-white rounded-lg shadow-sm p-6 sticky top-4">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Live Preview</h3>
+                    <div id="resumePreview" class="border border-gray-200 p-4 rounded-lg min-h-[500px]">
+                        <!-- Preview will be rendered here -->
+                        <p class="text-gray-500 text-center mt-20">Your resume preview will appear here</p>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <button id="downloadPdf" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 w-full">
+                            <i class="fas fa-file-pdf mr-2"></i> Download PDF
+                        </button>
+                    </div>
+
+                    <!-- ATS Score -->
+                    <div class="section bg-white border border-gray-200 rounded-lg p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                            <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                            ATS Resume Score
+                        </h3>
+                        <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                            <div id="atsScoreBar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <p id="atsScoreText" class="text-sm text-gray-600">0% - Your resume's ATS compatibility score</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        // Profile Image Upload Functionality
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            document.getElementById('profileImage').click();
+        });
+
+        document.getElementById('profileImage').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.getElementById('profileImagePreview');
+                    preview.src = event.target.result;
+                    preview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        function calculateATSScore() {
+            let score = 0;
+            if (document.getElementById('fullName').value) score += 10;
+            if (document.getElementById('professionalTitle').value) score += 10;
+            if (document.getElementById('summary').value) score += 15;
+            if (document.querySelectorAll('.work-experience').length > 0) score += 20;
+            if (document.querySelectorAll('.education').length > 0) score += 15;
+            if (document.querySelectorAll('.skill-tag').length > 3) score += 10;
+            if (document.getElementById('languages').value) score += 10;
+            if (document.getElementById('hobbies').value) score += 10;
+            return Math.min(100, score);
+        }
+
+        function updateATSScore() {
+            const score = calculateATSScore();
+            document.getElementById('atsScoreBar').style.width = `${score}%`;
+            document.getElementById('atsScoreText').textContent = `${score}% - Your resume's ATS compatibility score`;
+        }
+
+        // Add event listeners for ATS score updates
+        const atsFields = [
+            'fullName', 'professionalTitle', 'summary', 'languages', 'hobbies'
+        ];
+        
+        atsFields.forEach(field => {
+            const element = document.getElementById(field);
+            if (element) {
+                element.addEventListener('input', updateATSScore);
+            }
+        });
+
+        // Also update when work/education/skills change
+        document.addEventListener('workExperienceUpdated', updateATSScore);
+        document.addEventListener('educationUpdated', updateATSScore);
+        document.addEventListener('skillsUpdated', updateATSScore);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('resuwise_user'));
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('email').value = user.email;
+
+            // Load saved draft if exists
+            const savedDraft = localStorage.getItem(`resuwise_draft_${user.email}`);
+            if (savedDraft) {
+                loadDraft(JSON.parse(savedDraft));
+            }
+
+            // Initialize template selection
+            initTemplateSelection();
+            
+            // Initialize work experience and education sections
+            initDynamicSections();
+            
+            // Initialize skills functionality
+            initSkills();
+            
+            // Set up event listeners
+            setupEventListeners();
+        });
+
+        function initTemplateSelection() {
+            const templateOptions = document.querySelectorAll('.template-option');
+            templateOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    templateOptions.forEach(opt => opt.classList.remove('border-blue-500'));
+                    this.classList.add('border-blue-500');
+                    updatePreview();
+                });
+            });
+            // Select first template by default
+            if (templateOptions.length > 0) {
+                templateOptions[0].classList.add('border-blue-500');
+            }
+        }
+
+        function initDynamicSections() {
+            // Add first work experience and education sections by default
+            addWorkExperience();
+            addEducation();
+        }
+
+        function addWorkExperience() {
+            const container = document.getElementById('workExperienceContainer');
+            const id = Date.now();
+            const html = `
+                <div class="work-experience mb-6 pb-6 border-b border-gray-200" data-id="${id}">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Job Title*</label>
+                            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 work-title" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Company*</label>
+                            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 work-company" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date*</label>
+                            <input type="month" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 work-start-date" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">End Date (or present)</label>
+                            <input type="month" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 work-end-date">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 work-description" rows="3" placeholder="Describe your responsibilities and achievements..."></textarea>
+                    </div>
+                    <button class="remove-work text-red-500 hover:text-red-700 text-sm flex items-center">
+                        <i class="fas fa-trash-alt mr-1"></i> Remove
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+
+            // Add event listener to remove button
+            const newItem = container.querySelector(`[data-id="${id}"]`);
+            newItem.querySelector('.remove-work').addEventListener('click', function() {
+                if (document.querySelectorAll('.work-experience').length > 1) {
+                    newItem.remove();
+                    updatePreview();
+                } else {
+                    alert('You must have at least one work experience entry');
+                }
+            });
+
+            // Add input listeners for preview updates
+            const inputs = newItem.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+        }
+
+        function addEducation() {
+            const container = document.getElementById('educationContainer');
+            const id = Date.now();
+            const html = `
+                <div class="education mb-6 pb-6 border-b border-gray-200" data-id="${id}">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Degree*</label>
+                            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 education-degree" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Institution*</label>
+                            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 education-institution" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date*</label>
+                            <input type="month" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 education-start-date" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">End Date (or expected)</label>
+                            <input type="month" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 education-end-date">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 education-description" rows="2" placeholder="Notable achievements, honors, or coursework..."></textarea>
+                    </div>
+                    <button class="remove-education text-red-500 hover:text-red-700 text-sm flex items-center">
+                        <i class="fas fa-trash-alt mr-1"></i> Remove
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+
+            // Add event listener to remove button
+            const newItem = container.querySelector(`[data-id="${id}"]`);
+            newItem.querySelector('.remove-education').addEventListener('click', function() {
+                if (document.querySelectorAll('.education').length > 1) {
+                    newItem.remove();
+                    updatePreview();
+                } else {
+                    alert('You must have at least one education entry');
+                }
+            });
+
+            // Add input listeners for preview updates
+            const inputs = newItem.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+        }
+
+        function initSkills() {
+            const addSkillBtn = document.getElementById('addSkillBtn');
+            const skillInput = document.getElementById('skillInput');
+            const skillsContainer = document.getElementById('skillsContainer');
+
+            addSkillBtn.addEventListener('click', function() {
+                const skills = skillInput.value.split(',').map(skill => skill.trim()).filter(skill => skill);
+                if (skills.length === 0) return;
+
+                skills.forEach(skill => {
+                    const skillId = `skill-${Date.now()}`;
+                    const html = `
+                        <div class="skill-tag bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center" data-skill="${skill}">
+                            ${skill}
+                            <button class="remove-skill ml-1 text-blue-500 hover:text-blue-700" data-id="${skillId}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    skillsContainer.insertAdjacentHTML('beforeend', html);
+
+                    // Add event listener to remove button
+                    document.querySelector(`[data-id="${skillId}"]`).addEventListener('click', function() {
+                        this.parentElement.remove();
+                        updatePreview();
+                    });
+                });
+
+                skillInput.value = '';
+                updatePreview();
+            });
+
+            // Also add skills when pressing Enter
+            skillInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addSkillBtn.click();
+                }
+            });
+        }
+
+        // Word count function for summary
+        function updateWordCount() {
+            const text = document.getElementById('summary').value;
+            const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            const counter = document.getElementById('wordCount');
+            counter.textContent = `${wordCount}/200 words`;
+            
+            if (wordCount > 200) {
+                counter.classList.add('text-red-500');
+                counter.classList.remove('text-gray-500');
+            } else {
+                counter.classList.remove('text-red-500');
+                counter.classList.add('text-gray-500');
+            }
+        }
+
+        function setupEventListeners() {
+            // Add word count listener for summary
+            document.getElementById('summary').addEventListener('input', updateWordCount);
+            
+            // Add work experience button
+            document.getElementById('addWorkExperience').addEventListener('click', addWorkExperience);
+            
+            // Add education button
+            document.getElementById('addEducation').addEventListener('click', addEducation);
+            
+            // Save draft button
+            document.getElementById('saveDraft').addEventListener('click', function() {
+                const wordCount = document.getElementById('summary').value.trim().split(/\s+/).length;
+                if (wordCount > 200) {
+                    alert('Professional summary must be 200 words or less');
+                    return;
+                }
+                saveDraft();
+            });
+            
+            // Preview button
+            document.getElementById('previewBtn').addEventListener('click', function() {
+                const wordCount = document.getElementById('summary').value.trim().split(/\s+/).length;
+                if (wordCount > 200) {
+                    alert('Professional summary must be 200 words or less');
+                    return;
+                }
+                saveDraft();
+                window.location.href = 'preview.html';
+            });
+            
+            // Download PDF button
+            document.getElementById('downloadPdf').addEventListener('click', function() {
+                alert('PDF download functionality will be implemented in the next step');
+            });
+            
+            // Add input listeners for personal info
+            const personalInfoInputs = document.querySelectorAll('#fullName, #professionalTitle, #email, #phone, #linkedin, #portfolio, #summary');
+            personalInfoInputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+        }
+
+        function saveDraft() {
+            const user = JSON.parse(localStorage.getItem('resuwise_user'));
+            if (!user) return;
+
+            const resumeData = getResumeData();
+            localStorage.setItem(`resuwise_draft_${user.email}`, JSON.stringify(resumeData));
+            alert('Draft saved successfully!');
+        }
+
+        function loadDraft(data) {
+            // Load personal info
+            if (data.personalInfo) {
+                document.getElementById('fullName').value = data.personalInfo.fullName || '';
+                document.getElementById('professionalTitle').value = data.personalInfo.professionalTitle || '';
+                document.getElementById('phone').value = data.personalInfo.phone || '';
+                document.getElementById('linkedin').value = data.personalInfo.linkedin || '';
+                document.getElementById('portfolio').value = data.personalInfo.portfolio || '';
+                document.getElementById('summary').value = data.personalInfo.summary || '';
+            }
+
+            // Load work experience
+            if (data.workExperience && data.workExperience.length > 0) {
+                // Clear existing work experience (except the first one)
+                const workContainer = document.getElementById('workExperienceContainer');
+                while (workContainer.children.length > 0) {
+                    workContainer.removeChild(workContainer.firstChild);
+                }
+
+                // Add entries from draft
+                data.workExperience.forEach((work, index) => {
+                    if (index === 0) {
+                        // Update the first/default entry
+                        const inputs = workContainer.querySelectorAll('.work-experience input, .work-experience textarea');
+                        inputs[0].value = work.title || '';
+                        inputs[1].value = work.company || '';
+                        inputs[2].value = work.startDate || '';
+                        inputs[3].value = work.endDate || '';
+                        inputs[4].value = work.description || '';
+                    } else {
+                        // Add new entries
+                        addWorkExperience();
+                        const lastEntry = workContainer.lastChild;
+                        const inputs = lastEntry.querySelectorAll('input, textarea');
+                        inputs[0].value = work.title || '';
+                        inputs[1].value = work.company || '';
+                        inputs[2].value = work.startDate || '';
+                        inputs[3].value = work.endDate || '';
+                        inputs[4].value = work.description || '';
+                    }
+                });
+            }
+
+            // Load education
+            if (data.education && data.education.length > 0) {
+                // Clear existing education (except the first one)
+                const eduContainer = document.getElementById('educationContainer');
+                while (eduContainer.children.length > 0) {
+                    eduContainer.removeChild(eduContainer.firstChild);
+                }
+
+                // Add entries from draft
+                data.education.forEach((edu, index) => {
+                    if (index === 0) {
+                        // Update the first/default entry
+                        const inputs = eduContainer.querySelectorAll('.education input, .education textarea');
+                        inputs[0].value = edu.degree || '';
+                        inputs[1].value = edu.institution || '';
+                        inputs[2].value = edu.startDate || '';
+                        inputs[3].value = edu.endDate || '';
+                        inputs[4].value = edu.description || '';
+                    } else {
+                        // Add new entries
+                        addEducation();
+                        const lastEntry = eduContainer.lastChild;
+                        const inputs = lastEntry.querySelectorAll('input, textarea');
+                        inputs[0].value = edu.degree || '';
+                        inputs[1].value = edu.institution || '';
+                        inputs[2].value = edu.startDate || '';
+                        inputs[3].value = edu.endDate || '';
+                        inputs[4].value = edu.description || '';
+                    }
+                });
+            }
+
+            // Load skills
+            if (data.skills && data.skills.length > 0) {
+                const skillsContainer = document.getElementById('skillsContainer');
+                skillsContainer.innerHTML = ''; // Clear existing skills
+
+                data.skills.forEach(skill => {
+                    const skillId = `skill-${Date.now()}`;
+                    const html = `
+                        <div class="skill-tag bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center" data-skill="${skill}">
+                            ${skill}
+                            <button class="remove-skill ml-1 text-blue-500 hover:text-blue-700" data-id="${skillId}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    skillsContainer.insertAdjacentHTML('beforeend', html);
+
+                    // Add event listener to remove button
+                    document.querySelector(`[data-id="${skillId}"]`).addEventListener('click', function() {
+                        this.parentElement.remove();
+                        updatePreview();
+                    });
+                });
+            }
+
+            // Update preview after loading
+            updatePreview();
+        }
+
+        function getResumeData() {
+            const user = JSON.parse(localStorage.getItem('resuwise_user'));
+            if (!user) return null;
+
+            // Get personal info
+            const personalInfo = {
+                fullName: document.getElementById('fullName').value,
+                professionalTitle: document.getElementById('professionalTitle').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                linkedin: document.getElementById('linkedin').value,
+                portfolio: document.getElementById('portfolio').value,
+                summary: document.getElementById('summary').value,
+                profileImage: document.getElementById('profileImagePreview').src,
+                languages: document.getElementById('languages').value,
+                hobbies: document.getElementById('hobbies').value,
+                atsScore: calculateATSScore()
+            };
+
+            // Get work experience
+            const workExperience = [];
+            document.querySelectorAll('.work-experience').forEach(work => {
+                workExperience.push({
+                    title: work.querySelector('.work-title').value,
+                    company: work.querySelector('.work-company').value,
+                    startDate: work.querySelector('.work-start-date').value,
+                    endDate: work.querySelector('.work-end-date').value,
+                    description: work.querySelector('.work-description').value
+                });
+            });
+
+            // Get education
+            const education = [];
+            document.querySelectorAll('.education').forEach(edu => {
+                education.push({
+                    degree: edu.querySelector('.education-degree').value,
+                    institution: edu.querySelector('.education-institution').value,
+                    startDate: edu.querySelector('.education-start-date').value,
+                    endDate: edu.querySelector('.education-end-date').value,
+                    description: edu.querySelector('.education-description').value
+                });
+            });
+
+            // Get skills
+            const skills = [];
+            document.querySelectorAll('.skill-tag').forEach(skill => {
+                skills.push(skill.getAttribute('data-skill'));
+            });
+
+            // Get selected template
+            const selectedTemplate = document.querySelector('.template-option.border-blue-500');
+            const template = selectedTemplate ? selectedTemplate.getAttribute('data-template') : 'modern';
+
+            return {
+                personalInfo,
+                workExperience,
+                education,
+                skills,
+                template,
+                lastUpdated: new Date().toISOString()
+            };
+        }
+
+        function updatePreview() {
+            const resumeData = getResumeData();
+            if (!resumeData) return;
+
+            // Simple preview rendering (will be enhanced in preview.html)
+            const preview = document.getElementById('resumePreview');
+            let html = `
+                <div class="preview-content">
+                    <h2 class="text-2xl font-bold mb-2">${resumeData.personalInfo.fullName || 'Your Name'}</h2>
+                    <p class="text-gray-600 mb-4">${resumeData.personalInfo.professionalTitle || 'Professional Title'}</p>
+                    
+                    <div class="contact-info flex flex-wrap gap-4 text-sm mb-6">
+                        ${resumeData.personalInfo.email ? `<span><i class="fas fa-envelope mr-1"></i> ${resumeData.personalInfo.email}</span>` : ''}
+                        ${resumeData.personalInfo.phone ? `<span><i class="fas fa-phone mr-1"></i> ${resumeData.personalInfo.phone}</span>` : ''}
+                        ${resumeData.personalInfo.linkedin ? `<span><i class="fab fa-linkedin mr-1"></i> ${resumeData.personalInfo.linkedin.replace('https://', '')}</span>` : ''}
+                        ${resumeData.personalInfo.portfolio ? `<span><i class="fas fa-globe mr-1"></i> ${resumeData.personalInfo.portfolio.replace('https://', '')}</span>` : ''}
+                    </div>
+            `;
+
+            // Add summary if exists
+            if (resumeData.personalInfo.summary) {
+                html += `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">Summary</h3>
+                        <p class="text-gray-700">${resumeData.personalInfo.summary}</p>
+                    </div>
+                `;
+            }
+
+            // Add work experience if exists
+            if (resumeData.workExperience.length > 0 && resumeData.workExperience[0].title) {
+                html += `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">Work Experience</h3>
+                        ${resumeData.workExperience.map(work => `
+                            <div class="mb-4">
+                                <div class="flex justify-between">
+                                    <h4 class="font-semibold">${work.title}</h4>
+                                    <span class="text-gray-600 text-sm">
+                                        ${work.startDate ? formatDate(work.startDate) : ''} 
+                                        ${work.endDate ? ` - ${formatDate(work.endDate)}` : work.startDate ? ' - Present' : ''}
+                                    </span>
+                                </div>
+                                <p class="text-gray-600 mb-1">${work.company}</p>
+                                ${work.description ? `<p class="text-gray-700 mt-1">${work.description.replace(/\n/g, '<br>')}</p>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Add education if exists
+            if (resumeData.education.length > 0 && resumeData.education[0].degree) {
+                html += `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">Education</h3>
+                        ${resumeData.education.map(edu => `
+                            <div class="mb-4">
+                                <div class="flex justify-between">
+                                    <h4 class="font-semibold">${edu.degree}</h4>
+                                    <span class="text-gray-600 text-sm">
+                                        ${edu.startDate ? formatDate(edu.startDate) : ''} 
+                                        ${edu.endDate ? ` - ${formatDate(edu.endDate)}` : edu.startDate ? ' - Present' : ''}
+                                    </span>
+                                </div>
+                                <p class="text-gray-600 mb-1">${edu.institution}</p>
+                                ${edu.description ? `<p class="text-gray-700 mt-1">${edu.description.replace(/\n/g, '<br>')}</p>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Add skills if exists
+            if (resumeData.skills.length > 0) {
+                html += `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">Skills</h3>
+                        <div class="flex flex-wrap gap-2">
+                            ${resumeData.skills.map(skill => `
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">${skill}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+            preview.innerHTML = html;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        }
+    </script>
+</body>
+</html>
