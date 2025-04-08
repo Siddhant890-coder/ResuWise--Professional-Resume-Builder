@@ -1,0 +1,160 @@
+<div class="two-column-template p-8">
+    <link rel="stylesheet" href="../css/resume-styles.css">
+
+    <div class="two-column-container">
+        <!-- Left Column -->
+        <div class="left-column">
+            <!-- Profile -->
+            <div class="mb-6">
+                <h1 class="text-xl font-bold mb-1">{{personalInfo.fullName}}</h1>
+                <p class="text-gray-600 text-sm">{{personalInfo.professionalTitle}}</p>
+            </div>
+
+            <!-- Contact -->
+            <div class="mb-6">
+                <h2 class="section-title">Contact</h2>
+                {{#personalInfo.email}}
+                <div class="contact-item">
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <span>{{personalInfo.email}}</span>
+                </div>
+                {{/personalInfo.email}}
+                {{#personalInfo.phone}}
+                <div class="contact-item">
+                    <i class="fas fa-phone contact-icon"></i>
+                    <span>{{personalInfo.phone}}</span>
+                </div>
+                {{/personalInfo.phone}}
+                {{#personalInfo.linkedin}}
+                <div class="contact-item">
+                    <i class="fab fa-linkedin contact-icon"></i>
+                    <span>{{personalInfo.linkedin}}</span>
+                </div>
+                {{/personalInfo.linkedin}}
+                {{#personalInfo.portfolio}}
+                <div class="contact-item">
+                    <i class="fas fa-globe contact-icon"></i>
+                    <span>{{personalInfo.portfolio}}</span>
+                </div>
+                {{/personalInfo.portfolio}}
+            </div>
+
+            <!-- Skills -->
+            <div class="mb-6">
+                <h2 class="section-title">Skills</h2>
+                {{#skills}}
+                <div class="skill-item">
+                    <div class="skill-name">{{.}}</div>
+                    <div class="skill-bar">
+                        <div class="skill-level" style="width: 80%"></div>
+                    </div>
+                </div>
+                {{/skills}}
+            </div>
+
+            <!-- Education -->
+            <div class="mb-6">
+                <h2 class="section-title">Education</h2>
+                {{#education}}
+                <div class="mb-4">
+                    <div class="font-medium text-sm">{{degree}}</div>
+                    <div class="text-gray-600 text-xs">{{institution}}</div>
+                    <div class="text-gray-500 text-xs">
+                        {{startDate}} - {{#endDate}}{{endDate}}{{/endDate}}{{^endDate}}Present{{/endDate}}
+                    </div>
+                </div>
+                {{/education}}
+            </div>
+
+            <!-- Languages -->
+            {{#languages.length}}
+            <div class="mb-6">
+                <h2 class="section-title">Languages</h2>
+                {{#languages}}
+                <div class="skill-item">
+                    <div class="skill-name">{{language}} ({{proficiency}})</div>
+                    <div class="skill-bar">
+                        <div class="skill-level" style="width: {{proficiencyPercentage}}%"></div>
+                    </div>
+                </div>
+                {{/languages}}
+            </div>
+            {{/languages.length}}
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <!-- Summary -->
+            {{#personalInfo.summary}}
+            <div class="mb-6">
+                <h2 class="section-title">Profile</h2>
+                <p class="text-gray-700 text-sm">{{personalInfo.summary}}</p>
+            </div>
+            {{/personalInfo.summary}}
+
+            <!-- Work Experience -->
+            {{#workExperience.length}}
+            <div class="mb-6">
+                <h2 class="section-title">Work Experience</h2>
+                {{#workExperience}}
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="experience-title">{{title}}</div>
+                        <div class="experience-date">
+                            {{startDate}} - {{#endDate}}{{endDate}}{{/endDate}}{{^endDate}}Present{{/endDate}}
+                        </div>
+                    </div>
+                    <div class="experience-subtitle">{{company}}</div>
+                    {{#description}}
+                    <ul class="experience-description list-disc pl-5">
+                        {{#description.split('\n')}}
+                        <li>{{.}}</li>
+                        {{/description.split}}
+                    </ul>
+                    {{/description}}
+                </div>
+                {{/workExperience}}
+            </div>
+            {{/workExperience.length}}
+
+            <!-- Projects -->
+            {{#projects.length}}
+            <div class="mb-6">
+                <h2 class="section-title">Projects</h2>
+                {{#projects}}
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="experience-title">{{name}}</div>
+                        {{#date}}<div class="experience-date">{{date}}</div>{{/date}}
+                    </div>
+                    {{#technologies}}<div class="experience-subtitle">Technologies: {{.}}</div>{{/technologies}}
+                    {{#description}}
+                    <ul class="experience-description list-disc pl-5">
+                        {{#description.split('\n')}}
+                        <li>{{.}}</li>
+                        {{/description.split}}
+                    </ul>
+                    {{/description}}
+                </div>
+                {{/projects}}
+            </div>
+            {{/projects.length}}
+
+            <!-- Certifications -->
+            {{#certifications.length}}
+            <div class="mb-6">
+                <h2 class="section-title">Certifications</h2>
+                {{#certifications}}
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="experience-title">{{name}}</div>
+                        {{#date}}<div class="experience-date">{{date}}</div>{{/date}}
+                    </div>
+                    <div class="experience-subtitle">{{issuer}}</div>
+                </div>
+                {{/certifications}}
+            </div>
+            {{/certifications.length}}
+        </div>
+    </div>
+</div>
