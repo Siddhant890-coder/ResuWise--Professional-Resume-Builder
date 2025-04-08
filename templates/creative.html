@@ -1,0 +1,152 @@
+<div class="creative-template p-8">
+    <link rel="stylesheet" href="../css/resume-styles.css">
+    <style>
+        .creative-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .creative-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1);
+        }
+        .creative-section-title {
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        .creative-section-title:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: #4f46e5;
+            border-radius: 2px;
+        }
+        .creative-item {
+            margin-bottom: 1.5rem;
+        }
+        .creative-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .creative-item-title {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .creative-item-date {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .creative-item-subtitle {
+            color: #4f46e5;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .creative-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .creative-skill {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+        @media (max-width: 768px) {
+            .creative-header {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+
+    <!-- Header -->
+    <div class="creative-header">
+        <h1 class="text-3xl font-bold mb-2">{{personalInfo.fullName}}</h1>
+        <p class="text-xl mb-4 text-indigo-100">{{personalInfo.professionalTitle}}</p>
+        <div class="flex flex-wrap gap-x-8 gap-y-2 text-sm">
+            {{#personalInfo.email}}<div class="flex items-center"><i class="fas fa-envelope mr-2 text-indigo-200"></i> {{personalInfo.email}}</div>{{/personalInfo.email}}
+            {{#personalInfo.phone}}<div class="flex items-center"><i class="fas fa-phone mr-2 text-indigo-200"></i> {{personalInfo.phone}}</div>{{/personalInfo.phone}}
+            {{#personalInfo.linkedin}}<div class="flex items-center"><i class="fab fa-linkedin mr-2 text-indigo-200"></i> {{personalInfo.linkedin}}</div>{{/personalInfo.linkedin}}
+            {{#personalInfo.portfolio}}<div class="flex items-center"><i class="fas fa-globe mr-2 text-indigo-200"></i> {{personalInfo.portfolio}}</div>{{/personalInfo.portfolio}}
+        </div>
+    </div>
+
+    <!-- Summary -->
+    {{#personalInfo.summary}}
+    <div class="creative-section">
+        <h2 class="creative-section-title">PROFILE</h2>
+        <p class="text-gray-700">{{personalInfo.summary}}</p>
+    </div>
+    {{/personalInfo.summary}}
+
+    <!-- Work Experience -->
+    {{#workExperience.length}}
+    <div class="creative-section">
+        <h2 class="creative-section-title">EXPERIENCE</h2>
+        {{#workExperience}}
+        <div class="creative-item">
+            <div class="creative-item-header">
+                <h3 class="creative-item-title">{{title}}</h3>
+                <div class="creative-item-date">
+                    {{startDate}} - {{#endDate}}{{endDate}}{{/endDate}}{{^endDate}}Present{{/endDate}}
+                </div>
+            </div>
+            <div class="creative-item-subtitle">{{company}}</div>
+            {{#description}}
+            <ul class="text-gray-700 list-disc pl-5">
+                {{#description.split('\n')}}
+                <li class="mb-1">{{.}}</li>
+                {{/description.split}}
+            </ul>
+            {{/description}}
+        </div>
+        {{/workExperience}}
+    </div>
+    {{/workExperience.length}}
+
+    <!-- Skills -->
+    {{#skills.length}}
+    <div class="creative-section">
+        <h2 class="creative-section-title">SKILLS</h2>
+        <div class="creative-skills">
+            {{#skills}}
+            <span class="creative-skill">{{.}}</span>
+            {{/skills}}
+        </div>
+    </div>
+    {{/skills.length}}
+
+    <!-- Education -->
+    {{#education.length}}
+    <div class="creative-section">
+        <h2 class="creative-section-title">EDUCATION</h2>
+        {{#education}}
+        <div class="creative-item">
+            <div class="creative-item-header">
+                <h3 class="creative-item-title">{{degree}}</h3>
+                <div class="creative-item-date">
+                    {{startDate}} - {{#endDate}}{{endDate}}{{/endDate}}{{^endDate}}Present{{/endDate}}
+                </div>
+            </div>
+            <div class="creative-item-subtitle">{{institution}}</div>
+            {{#description}}<p class="text-gray-700">{{description}}</p>{{/description}}
+        </div>
+        {{/education}}
+    </div>
+    {{/education.length}}
+</div>
