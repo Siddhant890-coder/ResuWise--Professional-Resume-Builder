@@ -103,6 +103,7 @@
             let templateStyle = '';
             let templateClasses = '';
             
+            // Template-specific styling
             switch(data.template) {
                 case 'classic':
                     templateStyle = `
@@ -127,22 +128,220 @@
                     templateStyle = `
                         <style>
                             .resume-header {
-                                background-color: #7c3aed;
+                                background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+                                color: white;
+                                padding: 2.5rem;
+                                margin-bottom: 2rem;
+                                border-radius: 0.75rem;
+                                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+                            }
+                            .section-title {
+                                color: #4f46e5;
+                                font-weight: 700;
+                                position: relative;
+                                padding-left: 1rem;
+                            }
+                            .section-title:before {
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                height: 100%;
+                                width: 4px;
+                                background: #4f46e5;
+                                border-radius: 2px;
+                            }
+                            .skill-tag {
+                                background: #e0e7ff;
+                                color: #4f46e5;
+                                padding: 0.25rem 0.75rem;
+                                border-radius: 9999px;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-700';
+                    break;
+
+                case 'technical':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                background: #2a2d34;
+                                color: #abb2bf;
+                                padding: 2rem;
+                                margin-bottom: 2rem;
+                                font-family: 'Fira Code', monospace;
+                            }
+                            .section-title {
+                                color: #61afef;
+                                border-bottom: 1px solid #3e4451;
+                                padding-bottom: 0.5rem;
+                            }
+                            .skill-tag {
+                                background: #3e4451;
+                                color: white;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-300';
+                    break;
+
+                case 'executive':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                background: #333;
+                                color: white;
+                                padding: 3rem;
+                                font-weight: 700;
+                            }
+                            .section-title {
+                                color: #6c7a89;
+                                border-bottom: 3px solid #e5e7eb;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-900';
+                    break;
+
+                case 'academic':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                border-bottom: 3px solid #d97706;
+                                padding-bottom: 1rem;
+                            }
+                            .section-title {
+                                color: #d97706;
+                                font-style: italic;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-800';
+                    break;
+
+                case 'minimalist':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                padding-bottom: 1rem;
+                                margin-bottom: 1rem;
+                            }
+                            .section-title {
+                                font-weight: 300;
+                                letter-spacing: 0.5rem;
+                                text-transform: uppercase;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-800';
+                    break;
+
+                case 'bold':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                background: #1e293b;
                                 color: white;
                                 padding: 2rem;
                                 margin-bottom: 2rem;
-                                border-radius: 0.5rem;
                             }
                             .section-title {
-                                color: #7c3aed;
-                                margin-bottom: 1rem;
+                                color: #f43f5e;
+                                font-weight: 800;
+                                text-transform: uppercase;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-100';
+                    break;
+
+                case 'professional':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                border-bottom: 2px solid #10b981;
+                                padding-bottom: 1rem;
+                            }
+                            .section-title {
+                                color: #10b981;
                                 font-weight: 600;
                             }
                         </style>
                     `;
                     templateClasses = 'text-gray-700';
                     break;
-                
+
+                case 'clean':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                padding-bottom: 1rem;
+                                margin-bottom: 1.5rem;
+                            }
+                            .section-title {
+                                color: #3b82f6;
+                                font-weight: 500;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-600';
+                    break;
+
+                case 'creative2':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+                                color: white;
+                                padding: 2rem;
+                                margin-bottom: 2rem;
+                                border-radius: 0.5rem;
+                            }
+                            .section-title {
+                                color: #8b5cf6;
+                                font-weight: 600;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-700';
+                    break;
+
+                case 'modern2':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                background: #1e40af;
+                                color: white;
+                                padding: 2rem;
+                                margin-bottom: 2rem;
+                            }
+                            .section-title {
+                                color: #1e40af;
+                                font-weight: 600;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-100';
+                    break;
+
+                case 'timeless':
+                    templateStyle = `
+                        <style>
+                            .resume-header {
+                                border-bottom: 2px solid #d97706;
+                                padding-bottom: 1rem;
+                            }
+                            .section-title {
+                                color: #d97706;
+                                font-weight: 600;
+                                font-family: serif;
+                            }
+                        </style>
+                    `;
+                    templateClasses = 'text-gray-800';
+                    break;
+
                 default: // modern
                     templateStyle = `
                         <style>
