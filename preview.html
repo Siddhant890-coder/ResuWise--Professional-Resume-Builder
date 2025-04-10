@@ -14,9 +14,9 @@
             font-family: 'Poppins', sans-serif;
         }
         .resume-page {
-            width: 210mm;
-            min-height: 297mm;
-            margin: 0 auto;
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
             background: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -51,7 +51,7 @@
         </div>
 
         <!-- Resume Preview -->
-        <div id="resumeContent" class="resume-page p-8">
+        <div id="resumeContent" class="resume-page p-8 w-full" style="min-height: 90vh; width: 100%; max-width: none; margin: 0; padding: 2rem;">
             <!-- Resume content will be dynamically inserted here -->
             <div class="text-center py-20 text-gray-500" id="loadingMessage">
                 <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
