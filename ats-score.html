@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Score Analysis - ResuWise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/senior-resumes.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .score-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .recommendation-item {
+            transition: all 0.2s ease;
+        }
+        .recommendation-item:hover {
+            transform: translateX(5px);
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <a href="builder.html" class="text-xl font-bold text-blue-600 flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Builder
+            </a>
+            <h1 class="text-3xl font-bold text-center text-gray-800">ATS Score Analysis</h1>
+            <div class="w-10"></div> <!-- Spacer for alignment -->
+        </div>
+
+        <!-- Main Content -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <!-- Field Selection -->
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-xl font-semibold mb-4">Select Your Professional Field</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="fieldSelection">
+                    <button data-field="commerce" class="field-btn bg-blue-50 border-2 border-blue-200 rounded-lg p-4 hover:border-blue-400 transition-all">
+                        <i class="fas fa-chart-line text-blue-500 text-2xl mb-2"></i>
+                        <h3 class="font-medium">Commerce</h3>
+                        <p class="text-sm text-gray-600">Business, Finance, Marketing</p>
+                    </button>
+                    <button data-field="science" class="field-btn bg-green-50 border-2 border-green-200 rounded-lg p-4 hover:border-green-400 transition-all">
+                        <i class="fas fa-flask text-green-500 text-2xl mb-2"></i>
+                        <h3 class="font-medium">Science</h3>
+                        <p class="text-sm text-gray-600">Research, Lab, Academia</p>
+                    </button>
+                    <button data-field="technical" class="field-btn bg-purple-50 border-2 border-purple-200 rounded-lg p-4 hover:border-purple-400 transition-all">
+                        <i class="fas fa-code text-purple-500 text-2xl mb-2"></i>
+                        <h3 class="font-medium">Technical</h3>
+                        <p class="text-sm text-gray-600">Engineering, IT, Development</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Score Display -->
+            <div id="scoreDisplay" class="hidden p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Your ATS Score: <span id="scoreValue" class="text-blue-600">0</span>/100</h2>
+                    <div class="flex items-center">
+                        <span id="fieldBadge" class="px-3 py-1 rounded-full text-sm font-medium"></span>
+                    </div>
+                </div>
+
+                <!-- Score Breakdown -->
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">Keyword Matching</span>
+                            <span id="keywordScore" class="font-medium">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div id="keywordBar" class="score-bar bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">Section Structure</span>
+                            <span id="sectionScore" class="font-medium">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div id="sectionBar" class="score-bar bg-green-600 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="font-medium">Content Quality</span>
+                            <span id="contentScore" class="font-medium">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div id="contentBar" class="score-bar bg-purple-600 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendations -->
+                <div id="recommendations" class="bg-gray-50 rounded-lg p-4">
+                    <h3 class="font-semibold mb-3 text-gray-700">Recommendations</h3>
+                    <div id="recommendationList" class="space-y-2">
+                        <!-- Recommendations will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userResume = JSON.parse(localStorage.getItem('userResume'));
+            if (!userResume) {
+                alert('Please save your resume first before checking ATS score.');
+                window.location.href = 'builder.html';
+                return;
+            }
+
+            // Field selection
+            const fieldButtons = document.querySelectorAll('.field-btn');
+            fieldButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const field = this.getAttribute('data-field');
+                    analyzeResume(field, userResume);
+                    
+                    // Update UI
+                    fieldButtons.forEach(b => b.classList.remove('border-blue-400', 'border-green-400', 'border-purple-400'));
+                    this.classList.add(
+                        field === 'commerce' ? 'border-blue-400' :
+                        field === 'science' ? 'border-green-400' : 'border-purple-400'
+                    );
+                });
+            });
+
+            function analyzeResume(field, resume) {
+                const seniorData = seniorResumes[field];
+                if (!seniorData) return;
+
+                // Calculate scores
+                const keywordScore = calculateKeywordScore(resume, seniorData);
+                const sectionScore = calculateSectionScore(resume, seniorData);
+                const contentScore = calculateContentScore(resume, seniorData);
+                
+                // Overall score (weighted average)
+                const overallScore = Math.round(
+                    (keywordScore * 0.4) + 
+                    (sectionScore * 0.3) + 
+                    (contentScore * 0.3)
+                );
+
+                // Update UI
+                updateScoreDisplay(field, overallScore, {
+                    keywordScore,
+                    sectionScore,
+                    contentScore
+                });
+
+                // Generate recommendations
+                generateRecommendations(resume, seniorData, {
+                    keywordScore,
+                    sectionScore,
+                    contentScore
+                });
+            }
+
+            function calculateKeywordScore(resume, seniorData) {
+                const content = JSON.stringify(resume).toLowerCase();
+                const matchedKeywords = seniorData.keywords.filter(keyword => 
+                    content.includes(keyword.toLowerCase())
+                );
+                return Math.min(100, (matchedKeywords.length / seniorData.minKeywords) * 100);
+            }
+
+            function calculateSectionScore(resume, seniorData) {
+                const resumeSections = Object.keys(resume).filter(k => Array.isArray(resume[k]));
+                const matchedSections = seniorData.sections.filter(section =>
+                    resumeSections.some(rs => rs.toLowerCase().includes(section.toLowerCase()))
+                );
+                return Math.min(100, (matchedSections.length / seniorData.minSections) * 100);
+            }
+
+            function calculateContentScore(resume, seniorData) {
+                // Score based on content completeness
+                let score = 0;
+                if (resume.personalInfo?.summary) score += 20;
+                if (resume.workExperience?.length > 0) score += 30;
+                if (resume.education?.length > 0) score += 20;
+                if (resume.skills?.length >= 5) score += 30;
+                return Math.min(100, score);
+            }
+
+            function updateScoreDisplay(field, overallScore, breakdown) {
+                document.getElementById('scoreDisplay').classList.remove('hidden');
+                document.getElementById('scoreValue').textContent = overallScore;
+                
+                // Update field badge
+                const fieldBadge = document.getElementById('fieldBadge');
+                fieldBadge.textContent = field.charAt(0).toUpperCase() + field.slice(1);
+                fieldBadge.className = `px-3 py-1 rounded-full text-sm font-medium ${
+                    field === 'commerce' ? 'bg-blue-100 text-blue-800' :
+                    field === 'science' ? 'bg-green-100 text-green-800' : 'bg-purple-100 text-purple-800'
+                }`;
+
+                // Update breakdown bars
+                document.getElementById('keywordScore').textContent = `${Math.round(breakdown.keywordScore)}%`;
+                document.getElementById('sectionScore').textContent = `${Math.round(breakdown.sectionScore)}%`;
+                document.getElementById('contentScore').textContent = `${Math.round(breakdown.contentScore)}%`;
+                
+                // Animate bars
+                setTimeout(() => {
+                    document.getElementById('keywordBar').style.width = `${breakdown.keywordScore}%`;
+                    document.getElementById('sectionBar').style.width = `${breakdown.sectionScore}%`;
+                    document.getElementById('contentBar').style.width = `${breakdown.contentScore}%`;
+                }, 100);
+            }
+
+            function generateRecommendations(resume, seniorData, scores) {
+                const recommendationList = document.getElementById('recommendationList');
+                recommendationList.innerHTML = '';
+
+                const recommendations = [];
+
+                // Keyword recommendations
+                if (scores.keywordScore < 70) {
+                    const missingKeywords = seniorData.keywords.filter(kw => 
+                        !JSON.stringify(resume).toLowerCase().includes(kw.toLowerCase())
+                    ).slice(0, 3);
+                    
+                    if (missingKeywords.length > 0) {
+                        recommendations.push({
+                            icon: 'fa-key',
+                            color: 'text-blue-500',
+                            text: `Add more industry keywords like: ${missingKeywords.join(', ')}`
+                        });
+                    }
+                }
+
+                // Section recommendations
+                if (scores.sectionScore < 80) {
+                    const missingSections = seniorData.sections.filter(sec => 
+                        !Object.keys(resume).some(k => k.toLowerCase().includes(sec.toLowerCase()))
+                    );
+                    
+                    if (missingSections.length > 0) {
+                        recommendations.push({
+                            icon: 'fa-layer-group',
+                            color: 'text-green-500',
+                            text: `Consider adding sections for: ${missingSections.join(', ')}`
+                        });
+                    }
+                }
+
+                // Content recommendations
+                if (scores.contentScore < 60) {
+                    if (!resume.personalInfo?.summary) {
+                        recommendations.push({
+                            icon: 'fa-file-alt',
+                            color: 'text-purple-500',
+                            text: 'Add a professional summary section'
+                        });
+                    }
+                    if (resume.skills?.length < 5) {
+                        recommendations.push({
+                            icon: 'fa-tools',
+                            color: 'text-yellow-500',
+                            text: 'Include at least 5-8 key skills'
+                        });
+                    }
+                }
+
+                // Add recommendations to UI
+                recommendations.forEach(rec => {
+                    const item = document.createElement('div');
+                    item.className = 'recommendation-item flex items-start p-2 rounded-lg';
+                    item.innerHTML = `
+                        <i class="fas ${rec.icon} ${rec.color} mt-1 mr-3"></i>
+                        <span>${rec.text}</span>
+                    `;
+                    recommendationList.appendChild(item);
+                });
+
+                if (recommendations.length === 0) {
+                    const item = document.createElement('div');
+                    item.className = 'text-green-600 p-2';
+                    item.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Your resume looks strong for this field!';
+                    recommendationList.appendChild(item);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
